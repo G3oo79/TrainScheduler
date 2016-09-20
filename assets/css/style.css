@@ -1,0 +1,15 @@
+body {
+	background-image: url(https://c2.staticflickr.com/4/3659/3513156842_c1a8c1624a_b.jpg);
+	background-size: 100%;
+}
+.panel {
+	opacity: 0.9;
+	font-weight: bolder;
+}
+.jumbotron {
+	background-image: url(http://i.stack.imgur.com/thhXv.png);
+	background-size: 100%;
+}
+strong {
+	color: white;
+}
