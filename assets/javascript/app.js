@@ -1,9 +1,9 @@
 $(document).ready(function(){
 
 /*1.start firebase
-2.Create click functions for train inputs 
-3.
-4.
+2.Create variable and assing fire base database 
+3.create click event, use methods .val . trim
+4.create object to hold trains data and push to firebase
 5.
 6.
 */
@@ -23,17 +23,23 @@ var database = firebase.database();
 $("#search").on("click", function() {
 	//capturing user inputs
 	var trainName = $('#traininput').val().trim(); 
+	//
 	var destination = $('#destinput').val().trim(); 
 	/*console.log("time=",$("#timeinput").val().trim());*/
-	var firstTrain = moment.unix($("#timeinput").val().trim()).format('HH:mm');
+
+	var firstTrain = $("#timeinput").val().trim();
+	var firstTrain = moment.unix().format("HH:mm");
+	console.log("**********************************")
 	console.log("minutes=", firstTrain);
 	var frequency = $('#frequinput').val().trim(); 
-	//Create an object to hold trains data
+
+	console.log(frequency);
+	/*Create an object to hold trains data*/
 	var newTrain = {
-		train: trainName,
-		dest: destination,
-		first: firstTrain
-		freq: frequency,
+		'train': trainName,
+		'dest': destination,
+		'first': firstTrain,
+		'freq': frequency
 		
 		
  
@@ -61,6 +67,15 @@ $("#search").on("click", function() {
 
 	
 	});
+//create a refresh function for 1 minute
+/*function refresh() {
+
+    // your function code here
+
+    setTimeout(foo, 5000);
+}
+
+foo();*/
 
 //
 database.ref().on("child_added", function(childSnapshot, prevChildKey){
@@ -68,43 +83,43 @@ database.ref().on("child_added", function(childSnapshot, prevChildKey){
 	var trainName = childSnapshot.val().train; 
 	var destination = childSnapshot.val().dest; 
 	var frequency = childSnapshot.val().freq; 
-	var newArrivals = childSnapshot.val().freq; 
-	var trainTime = childSnapshot.val().first;
+	
 	//
-	console.log(trainName);
+	/*console.log(trainName);
 	console.log(destination);
 	console.log(trainTime);
-	console.log(frequency);
-	//
-	var timeDifference = moment().diff(moment.unix(trainTime), "minutes");
-	console.log("time=", timeDifference);
+	console.log(frequency);*/
+	//create a function that refreshes every minute grab var from top example trainName
+	var timeDifference = moment().diff(moment.unix(frequency), "minutes");
+	var trainTime = moment(trainTime, 'HH:MM A')
+	// console.log("time=", timeDifference);
 	var minutesAway = frequency - (timeDifference % frequency);
-	console.log("second=", minutesAway);
+	/*console.log("second=", minutesAway);*/
 	var nextTrain = moment().add(minutesAway, "minutes").format('HH:mm');
-	console.log("Next Train: " + nextTrain);
-
+	/*console.log("Next Train: " + nextTrain);
+*/
 
 	//
 				var newArrivals = $('<tr>');
 				var trainNew = $('<td>');
 				var destinationNew = $('<td>');
 				var frequescyNew = $('<td>');
-				nextTrain= $('<td>');
-				minutesAway= $('<td>');
+				var newpotato= $('<td>');
+				var newMinutes= $('<td>');
 				
 				
 				trainNew.html(trainName);
 				destinationNew.html(destination);
 				frequescyNew.html(frequency);
-				nextTrain.html(newArrivals);
-				minutesAway.html(trainTime);
+				newpotato.html(nextTrain);
+				newMinutes.html(minutesAway);
 				
 
 				newArrivals.append(trainNew);
 				newArrivals.append(destinationNew);
 				newArrivals.append(frequescyNew);
-				/*newArrivals.append(nextTrain);*/
-				newArrivals.append(minutesAway);
+				newArrivals.append(newpotato);
+				newArrivals.append(newMinutes);
 				$('#tbody').prepend(newArrivals);
 
 
