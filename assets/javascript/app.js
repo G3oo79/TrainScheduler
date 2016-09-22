@@ -1,11 +1,10 @@
 $(document).ready(function(){
-
 /*1.start firebase
 2.Create variable and assing fire base database 
 3.create click event, use methods .val . trim
 4.create object to hold trains data and push to firebase
-5.
-6.
+5.pull data from firebase by using childSnapshot and put it into the html using the .html and 
+the .append method
 */
 
 var config = {
@@ -29,9 +28,10 @@ $("#search").on("click", function() {
 
 	var firstTrain = $("#timeinput").val().trim();
 	var firstTrain = moment.unix().format("HH:mm");
-	console.log("**********************************")
-	console.log("minutes=", firstTrain);
+	/*console.log("**********************************")
+	console.log("minutes=", firstTrain);*/
 	var frequency = $('#frequinput').val().trim(); 
+	alert("congrats");
 
 	console.log(frequency);
 	/*Create an object to hold trains data*/
@@ -67,17 +67,15 @@ $("#search").on("click", function() {
 
 	
 	});
-//create a refresh function for 1 minute
-/*function refresh() {
+//create a refresh function for 1 minute fail attempt
+setInterval(function(){ 
+    var currentdate = new Date(); 
+    var bro = currentdate.getSeconds();
+   /* console.log(bro);*/
 
-    // your function code here
+}, 1000);
 
-    setTimeout(foo, 5000);
-}
-
-foo();*/
-
-//
+//pulling data from firebase
 database.ref().on("child_added", function(childSnapshot, prevChildKey){
 	//
 	var trainName = childSnapshot.val().train; 
@@ -96,10 +94,9 @@ database.ref().on("child_added", function(childSnapshot, prevChildKey){
 	var minutesAway = frequency - (timeDifference % frequency);
 	/*console.log("second=", minutesAway);*/
 	var nextTrain = moment().add(minutesAway, "minutes").format('HH:mm');
-	/*console.log("Next Train: " + nextTrain);
-*/
+	
 
-	//
+	//adding to Html.
 				var newArrivals = $('<tr>');
 				var trainNew = $('<td>');
 				var destinationNew = $('<td>');
